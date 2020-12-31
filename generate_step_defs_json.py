@@ -2,6 +2,9 @@ import json
 
 
 def collect_step_definition_files():
+    """
+    :return: a list of all paths with *step_definitions*.py in filename
+    """
     import glob
     result = []
     for name in glob.glob('tests/step_defs/**/*step_definitions*.py', recursive=True):
@@ -11,6 +14,15 @@ def collect_step_definition_files():
 
 
 def create_step_defs_dict(paths):
+    """
+
+    :param paths: a list of paths
+    :return: dictionary
+    e.g. {"folder_name1": {"folder_name2": {"step_definition_file_name": {}}}}
+
+    Issue:
+        Should be done recursively
+    """
     result_dict = {}
     for path in paths:
         path_split = path.split('/')
@@ -98,15 +110,6 @@ def create_dict(paths):
                 if store_description and '"""' not in line:
                     result_dict[common_name][step_def_file_name][step_name.strip()] += line.strip()
     return result_dict
-
-
-def read_files(paths):
-    for path in paths:
-        with open(path, 'r') as f:
-            file_content = f.readlines()
-        for line in file_content:
-            if "@when" in line:
-                print(line)
 
 
 print(create_step_defs_dict(collect_step_definition_files()))
