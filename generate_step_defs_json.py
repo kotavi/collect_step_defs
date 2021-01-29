@@ -30,10 +30,10 @@ def create_step_defs_dict(paths):
         node = tree
         new_path = path.split('/')[2:]
         for level in new_path:
-            if level:
+            if level:  # if a name is non-empty
                 if '.py' in level:
                     level = level.split('.')[0]
-                node = node.setdefault(level, dict())  # move to a deeper level (or create it if doesn't exist)
+                node = node.setdefault(level, dict())  # move to the deeper level (or create it if doesn't exist)
     return tree
 
 
@@ -48,7 +48,6 @@ def set_in_dict(data_dict, map_list, value):
 def create_dict(paths):
     matches = ["@when", "@then", "@given"]
     result_dict = create_step_defs_dict(paths)
-    print(result_dict)
     for path in paths:
         with open(path, 'r') as f:
             file_content = f.readlines()
